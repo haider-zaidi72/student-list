@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Marks Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+      width: 45%;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-top: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background: #f0f0f0;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 4px;
+    }
+
+    .summary {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Marks Management System</h2>
+
+  <input type="text" id="studentName" placeholder="Enter student name" />
+  <input type="number" id="studentMarks" placeholder="Enter marks" />
+  <br>
+  <button onclick="addStudent()">Add Student</button>
+
+  <ul id="studentList"></ul>
+
+  <p class="summary">Total Students: <span id="totalStudents">0</span></p>
+  <p class="summary">Average Marks: <span id="averageMarks">0</span></p>
+
+  <script>
+    const names = [];
+    const marks = [];
+
+    function addStudent() {
+      const nameInput = document.getElementById("studentName");
+      const marksInput = document.getElementById("studentMarks");
+
+      const name = nameInput.value.trim();
+      const mark = parseFloat(marksInput.value);
+
+      if (name === "" || isNaN(mark)) {
+        alert("Please enter a valid name and number for marks.");
+        return;
+      }
+
+      names.push(name);
+      marks.push(mark);
+
+      nameInput.value = "";
+      marksInput.value = "";
+
+      updateList();
+    }
+
+    function updateList() {
+      const list = document.getElementById("studentList");
+      const totalStudents = document.getElementById("totalStudents");
+      const averageMarks = document.getElementById("averageMarks");
+
+      list.innerHTML = "";
+
+      for (let i = 0; i < names.length; i++) {
+        const li = document.createElement("li");
+        li.textContent = `${names[i]} - ${marks[i]} marks`;
+        list.appendChild(li);
+      }
+
+      totalStudents.textContent = names.length;
+
+      let sum = 0;
+      for (let i = 0; i < marks.length; i++) {
+        sum += marks[i];
+      }
+
+      const average = names.length > 0 ? (sum / marks.length).toFixed(2) : 0;
+      averageMarks.textContent = average;
+    }
+  </script>
+
+</body>
+</html>
